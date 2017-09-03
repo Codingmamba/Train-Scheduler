@@ -1,5 +1,5 @@
   // Initialize Firebase
- var config = {
+  var config = {
     apiKey: "AIzaSyAsnuQVWxYc3egzGXa5uHEdYKjZ2U0R4_I",
     authDomain: "train-scheduler-ad91a.firebaseapp.com",
     databaseURL: "https://train-scheduler-ad91a.firebaseio.com",
@@ -7,76 +7,78 @@
     storageBucket: "",
     messagingSenderId: "840354281515"
   };
+
   firebase.initializeApp(config);
 
   var database = firebase.database();
-
-  var trainName = "";
-  var destination = "";
-  var freq = 0;
-  var nxtArrival = "";
-  var minAway = 0;
-
- $("#sub").on("click", function(event) {
-    event.preventDefault();
-
-// Grabs user input
-trainName = $("#train-name-input").val().trim();
-destination = $("#dest-input").val().trim();
-freq = $("#freq-input").val().trim();
-nxtArrival = $("#next-arrival-input").val().trim();
-minAway = $("#min-away-input").val().trim();
-
-// Object holds employees data
-var newTrain = {
-    TrainName: trainName,
-    Destination: destination,
-    TrainTime: nxtArrival,
-    Frequency: freq,
-    dataAdded: firebase.database.ServerValue.TIMESTAMP
-  };
-
-  // Uploads employee data to the database
-  database.ref().push(newTrain);
-
-   // Logs everything to console
-   console.log(newTrain.trainName);
-   console.log(newTrain.destination);
-   console.log(newTrain.nxtArrival);
-   console.log(newTrain.freq);
-
-   // Alert
-  alert("New train successfully added");
-
-  // Clears all of the text-boxes
-    $("#train-name-input").val("");
-    $("#dest-input").val("");
-    $("#freq-input").val("");
-    $("#next-arrival-input").val("");
-    $("#min-away-input").val("");
-
-      return false;
-
-  }); //click function
-  
-  database.ref().limitToLast(1).on("child_added", function(snapshot) {
-
-    console.log(childSnapshot.val());
-
-      // Store everything into a variable.
-  var fireName = childSnapshot.val().trainName;
-  var fireDestination = childSnapshot.val().destination;
-  var fireFrequency  = childSnapshot.val().freq;
-  var fireFirstTrain = childSnapshot.val().nxtArrival;  
-
-   // Employee Info
-    console.log(fireName);
-    console.log(fireDestination);
-    console.log(fireFirstTrain);
-    console.log(fireFrequency);
-
-    // Append train data to the table
-    $("#train-table > tbody").append("<tr><td>" + fireName + "</td><td>" + fireDestination + "</td><td>" +
-    fireFrequency + "</td><td>" + fireFirstTrain + "</td><tr>");
-
-  });
+    
+      $("#sub").on("click", function(){
+        event.preventDefault();
+    
+        // Set form values to variables
+        var trainName = $("#trainNameInput").val().trim();
+        var destination = $("#destinationInput").val().trim();
+        var firstTrain = moment($("#trainInput").val().trim(), "HH:mm").subtract(10, "years").format("X");
+        var frequency = $("#frequencyInput").val().trim();
+    
+        // Set form variable to trainInfo in order to push to Firebase
+        var trainInfo = {
+          name: trainName,
+          destination: destination,
+          firstTrain: firstTrain,
+          frequency: frequency
+        };
+    
+        // pushing trainInfo to Firebase
+        database.ref().push(trainInfo);
+    
+        console.log(trainInfo.name);
+        console.log(trainInfo.destination); 
+        console.log(firstTrain);
+        console.log(trainInfo.frequency)
+        
+       // Alert
+        alert("New train successfully added");
+    
+        // clear text-boxes
+        $("#trainNameInput").val("");
+        $("#destinationInput").val("");
+        $("#trainInput").val("");
+        $("#frequencyInput").val("");
+    
+        // stop refresh
+    
+        return false;
+      });
+    
+    
+      
+      database.ref(). on("child_added", function(childSnapshot, prevChildKey){
+    
+        console.log(childSnapshot.val());
+    
+        // assign firebase variables to snapshots.
+        var fireName = childSnapshot.val().name;
+        var fireDestination = childSnapshot.val().destination;
+        var fireFrequency = childSnapshot.val().frequency;
+        var fireFirstTrain = childSnapshot.val().firstTrain;
+    
+        
+        var differenceTimes = moment().diff(moment.unix(fireFirstTrain), "minutes");
+        var remainder = moment().diff(moment.unix(fireFirstTrain), "minutes") % fireFrequency ;
+        var minutes = fireFrequency - remainder;
+    
+        var arrival = moment().add(minutes, "m").format("hh:mm A"); 
+        console.log(minutes);
+        console.log(arrival);
+    
+        console.log(moment().format("hh:mm A"));
+        console.log(arrival);
+        console.log(moment().format("X"));
+    
+        // Append train data to table 
+        $("#trainSchedule > tbody").append("<tr><td>" + fireName + "</td><td>" + fireDestination + "</td><td>" + fireFrequency + "</td><td>" + arrival + "</td><td>" + minutes + "</td></tr>");
+    
+      });
+    
+    
