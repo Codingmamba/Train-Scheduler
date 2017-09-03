@@ -21,11 +21,11 @@
     event.preventDefault();
 
 // Grabs user input
-trainName = $("#train-name").val().trim();
-destination = $("#dest").val().trim();
-freq = $("#freq").val().trim();
-nxtArrival = $("#next-arrival").val().trim();
-minAway = $("#min-away").val().trim();
+trainName = $("#train-name-input").val().trim();
+destination = $("#dest-input").val().trim();
+freq = $("#freq-input").val().trim();
+nxtArrival = $("#next-arrival-input").val().trim();
+minAway = $("#min-away-input").val().trim();
 
 // Object holds employees data
 var newTrain = {
@@ -49,11 +49,13 @@ var newTrain = {
   alert("New train successfully added");
 
   // Clears all of the text-boxes
-    $("#train-name").val("");
-    $("#dest").val("");
-    $("#freq").val("");
-    $("#next-arrival").val("");
-    $("#min-away").val("");
+    $("#train-name-input").val("");
+    $("#dest-input").val("");
+    $("#freq-input").val("");
+    $("#next-arrival-input").val("");
+    $("#min-away-input").val("");
+
+      return false;
 
   }); //click function
   
@@ -62,20 +64,19 @@ var newTrain = {
     console.log(childSnapshot.val());
 
       // Store everything into a variable.
-  var trainName = childSnapshot.val().trainName;
-  var destination = childSnapshot.val().destination;
-  var nxtArrival = childSnapshot.val().nxtArrival;
-  var freq = childSnapshot.val().freq;  
+  var fireName = childSnapshot.val().trainName;
+  var fireDestination = childSnapshot.val().destination;
+  var fireFrequency  = childSnapshot.val().freq;
+  var fireFirstTrain = childSnapshot.val().nxtArrival;  
 
    // Employee Info
-    console.log(trainName);
-    console.log(destination);
-    console.log(nxtArrival);
-    console.log(freq);
+    console.log(fireName);
+    console.log(fireDestination);
+    console.log(fireFirstTrain);
+    console.log(fireFrequency);
 
-    $("#train-table > thread").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" +
-    nxtArrival + "</td><td>" + freq + "</td><td>");
-
-    // + empRate + "</td><td>" + empBilled + "</td></tr>"
+    // Append train data to the table
+    $("#train-table > tbody").append("<tr><td>" + fireName + "</td><td>" + fireDestination + "</td><td>" +
+    fireFrequency + "</td><td>" + fireFirstTrain + "</td><tr>");
 
   });

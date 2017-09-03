@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
 
 </head>
-<body>
+<body>  
 
     <!-- jumbotron header -->
     <div class="jumbotron container btn-info" align="center">
@@ -26,16 +26,28 @@
     <!-- Default panel contents -->
         <div class="panel-heading panel-primary" id="empty-title">Current Train Schedule</div>
     <!-- Table -->
-        <table class="table table-striped" id="train-table">
+        <table class="table table-striped" id="train-table" align="center">
         <thread>
          <tr>   
-          <td id="train-name">Train Name</td>
-          <td id="dest">Destination</td>
-          <td id="freq">Frequency (min)</td>
-          <td id="next-arrival">Next Arrival</td>
-          <td id="min-away">Minutes Away</td>
+          <th>Train Name</th>
+          <th>Destination</th>
+          <th id="freq-input">Frequency (min)</th>
+          <th id="nxt-arrival-input">Next Arrival</th>
+          <th id="min-away-input">Minutes Away</th>
          </tr> 
+
+         <tr>
+             <td id="train-name-input"></td>
+             <td id="dest-input"></td>
+             <td id="freq-input"></td>
+             <td id="nxt-arrival-input"></td>
+         </tr>
+
         </thread>  
+
+        <tbody>
+        </tbody>
+
         </table>
 
     </div>
@@ -44,23 +56,23 @@
     <!-- form entry -->
     <form class="container panel panel-info">
         <div class="panel-heading title-color form-group" id="empty-title">Add Train</div>
-          <label for="exampleInputEmail1">Train Name</label>
-          <input type="text" class="form-control" placeholder="Enter Train Here...">
+          <label for="">Train Name</label>
+          <input class="form-control" type="text" placeholder="Enter Train Here..." id="train-name-input">
         </div>
 
         <div class="form-group">
-          <label>Destination</label>
-          <input class="form-control" placeholder="Location...">
+          <label for="">Destination</label>
+          <input class="form-control" type="text" placeholder="Location..." id="dest-input">
         </div>
 
         <div class="form-group">
-          <label>First Train Time</label>
-          <input class="form-control" placeholder="HH:mm - Military Time"=>
+          <label for="">First Train Time</label>
+          <input class="form-control" type="text" placeholder="HH:mm - Military Time"  id="next-arrival-input">
         </div>
 
         <div class="form-group">
-          <label>Frequency</label>
-          <input class="form-control" placeholder="Minutes">
+          <label for="">Frequency</label>
+          <input class="form-control" type="text" placeholder="Minutes" id="freq-input">
         </div>
         
         <button type="submit" class="btn btn-info" id="sub">Submit</button>
